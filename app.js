@@ -160,6 +160,8 @@ const valueAnimations = new WeakMap();
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const VIEWS = ['ringkasan', 'prediksi', 'kota', 'edukasi'];
+let currentView = null;
 
 const nf1 = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 1 });
 const nf0 = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 });
@@ -404,8 +406,7 @@ function updateCityIdentity(scrollToTop = false) {
   if ($('#cityGrid')) renderCityCards();
 
   if (scrollToTop) {
-    const target = document.getElementById('ringkasan');
-    target?.scrollIntoView({ behavior: reducedMotion.matches ? 'auto' : 'smooth', block: 'start' });
+    showView('ringkasan', { updateHash: true });
   }
 }
 
@@ -632,6 +633,18 @@ function updateCityPills() {
   });
 }
 
+const CITY_NOTE_HTML = `
+  <article class="city-note-card" aria-label="Catatan data kota">
+    <span class="card-kicker"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>Catatan data</span>
+    <p><strong>Kartu kota</strong> memakai konsentrasi PM2.5 saat ini, sedangkan Ringkasan memakai estimasi ISPU dari rata-rata 24 jam semua polutan.</p>
+    <ul class="city-note-list">
+      <li><span class="status-dot"></span>Warna kartu mengikuti kategori ISPU.</li>
+      <li><span class="status-dot"></span>Klik kartu untuk membuka detail kota.</li>
+    </ul>
+    <span class="city-note-source">Sumber: Open-Meteo Air Quality API</span>
+  </article>
+`;
+
 function renderCityCardsSkeleton() {
   const grid = $('#cityGrid');
   if (!grid) return;
@@ -651,7 +664,109 @@ function renderCityCardsSkeleton() {
       <div class="city-card-bar"><span style="width: 0"></span></div>
       <div class="city-card-foot"><span>PM2.5 saat ini</span><span>—</span></div>
     </button>
-  `).join('');
+  `).join('') + CITY_NOTE_HTML;
+  renderCityCompareSkeleton();
+}
+
+/* ---------- One-screen views ---------- */
+function viewFromHash() {
+  const id = window.location.hash.replace(/^#/, '');
+  return VIEWS.includes(id) ? id : 'ringkasan';
+}
+
+function showView(id, options = {}) {
+  const next = VIEWS.includes(id) ? id : 'ringkasan';
+  const changed = currentView !== next;
+  currentView = next;
+
+  VIEWS.forEach((viewId) => {
+    const section = document.getElementById(viewId);
+    if (!section) return;
+    const active = viewId === next;
+    section.hidden = !active;
+    section.classList.toggle('is-active', active);
+    if (active) {
+      section.querySelectorAll('.reveal').forEach((item) => item.classList.add('is-visible'));
+    }
+  });
+
+  $$('.main-nav .nav-link').forEach((link) => {
+    const target = link.dataset.view || link.getAttribute('href')?.slice(1);
+    const active = target === next;
+    link.classList.toggle('is-active', active);
+    if (active) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
+
+  if (options.updateHash) {
+    const hash = `#${next}`;
+    if (window.location.hash !== hash) {
+      window.history.pushState({ view: next }, '', hash);
+    }
+  }
+
+  if (next === 'prediksi') {
+    window.requestAnimationFrame(() => {
+      if (state.chart) drawChart(state.chartHover);
+      else drawChartEmpty(state.loading ? 'Memuat grafik…' : 'Data grafik belum tersedia');
+    });
+  }
+
+  if (changed && window.matchMedia('(max-width: 980px)').matches) {
+    window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+  }
+}
+
+function setupViewTabs() {
+  $$('.main-nav .nav-link').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      const id = link.dataset.view || link.getAttribute('href')?.slice(1);
+      if (!id) return;
+      if (id === currentView) {
+        if (window.matchMedia('(max-width: 980px)').matches) {
+          window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+        }
+        return;
+      }
+      showView(id, { updateHash: true });
+    });
+  });
+
+  window.addEventListener('popstate', () => showView(viewFromHash()));
+  window.addEventListener('hashchange', () => showView(viewFromHash()));
+  showView(viewFromHash());
+}
+
+function setupFullscreen() {
+  const button = $('#fullscreenBtn');
+  if (!button) return;
+
+  if (!document.fullscreenEnabled || !document.documentElement.requestFullscreen) {
+    button.hidden = true;
+    return;
+  }
+
+  const sync = () => {
+    const active = Boolean(document.fullscreenElement);
+    const use = button.querySelector('use');
+    if (use) use.setAttribute('href', active ? '#i-minimize' : '#i-maximize');
+    button.setAttribute('aria-label', active ? 'Keluar dari layar penuh' : 'Masuk layar penuh');
+    button.setAttribute('title', active ? 'Keluar layar penuh' : 'Layar penuh');
+    button.classList.toggle('is-active', active);
+  };
+
+  button.addEventListener('click', async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else await document.documentElement.requestFullscreen();
+    } catch {
+      showToast('Layar penuh tidak tersedia di browser ini', 'i-alert');
+    }
+  });
+
+  document.addEventListener('fullscreenchange', sync);
+  sync();
 }
 
 /* ---------- Events & init ---------- */
@@ -666,6 +781,12 @@ function setupEvents() {
     const card = event.target.closest('[data-city]');
     if (!card) return;
     selectCity(card.dataset.city, { scroll: true });
+  });
+
+  $('#cityCompare')?.addEventListener('click', (event) => {
+    const row = event.target.closest('[data-city]');
+    if (!row) return;
+    selectCity(row.dataset.city, { scroll: true });
   });
 
   $('#refreshBtn')?.addEventListener('click', () => {
@@ -700,7 +821,8 @@ function setupEvents() {
   const year = $('#year');
   if (year) year.textContent = String(new Date().getFullYear());
 
-  setupSectionSpy();
+  setupViewTabs();
+  setupFullscreen();
   setupReveal();
   setupChartResize();
   setupChartInteractions();
@@ -721,26 +843,6 @@ function setupReveal() {
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
   items.forEach((item) => observer.observe(item));
-}
-
-function setupSectionSpy() {
-  if (!('IntersectionObserver' in window)) return;
-  const links = $$('.main-nav .nav-link');
-  const sections = links
-    .map((link) => document.querySelector(link.getAttribute('href')))
-    .filter(Boolean);
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      links.forEach((link) => {
-        const active = link.getAttribute('href') === `#${entry.target.id}`;
-        link.classList.toggle('is-active', active);
-      });
-    });
-  }, { rootMargin: '-25% 0px -65% 0px', threshold: 0 });
-
-  sections.forEach((section) => observer.observe(section));
 }
 
 function setupChartResize() {
@@ -1185,6 +1287,61 @@ function renderPollutantsSkeleton() {
 /* =========================================================
    RENDER KARTU KOTA
    ========================================================= */
+function renderCityCompareSkeleton() {
+  const list = $('#cityCompare');
+  if (!list) return;
+  list.innerHTML = CITIES.map((city, index) => `
+    <div class="compare-row compare-skeleton" aria-hidden="true">
+      <span class="compare-rank">${index + 1}</span>
+      <span class="compare-city">${escapeHtml(city.name)}<small>${escapeHtml(city.province)}</small></span>
+      <span class="compare-track"><span style="width:0%"></span></span>
+      <span class="compare-value">— <small>µg/m³</small></span>
+      <span class="badge">Memuat</span>
+    </div>
+  `).join('');
+}
+
+function renderCityCompare() {
+  const list = $('#cityCompare');
+  if (!list) return;
+
+  if (!state.overview) {
+    renderCityCompareSkeleton();
+    return;
+  }
+
+  const rows = [...state.overview].sort((a, b) => {
+    const first = Number.isFinite(a.pm25) ? a.pm25 : -Infinity;
+    const second = Number.isFinite(b.pm25) ? b.pm25 : -Infinity;
+    return second - first;
+  });
+  const maxPm = rows.reduce((max, item) => (
+    Number.isFinite(item.pm25) ? Math.max(max, item.pm25) : max
+  ), 1);
+
+  list.innerHTML = rows.map(({ city, pm25 }, index) => {
+    const hasValue = Number.isFinite(pm25);
+    const ispu = hasValue ? Math.round(hitungSubIndeks('pm2_5', pm25)) : null;
+    const kategori = hasValue ? getKategori(ispu) : null;
+    const isCurrent = city.id === state.city.id;
+    const width = hasValue ? clamp((pm25 / maxPm) * 100, 4, 100) : 0;
+    const classKategori = kategori ? `cat-${kategori.slug}` : '';
+    const valueText = hasValue ? formatNumber(pm25, 1) : 'belum tersedia';
+
+    return `
+      <button class="compare-row ${classKategori}${isCurrent ? ' is-current' : ''}" type="button"
+        data-city="${city.id}" ${isCurrent ? 'aria-current="true"' : ''}
+        aria-label="${escapeHtml(city.name)}, peringkat ${index + 1}, PM2.5 ${valueText} mikrogram per meter kubik, kategori ${kategori ? kategori.label : 'belum tersedia'}. Klik untuk melihat detail.">
+        <span class="compare-rank">${index + 1}</span>
+        <span class="compare-city">${escapeHtml(city.name)}<small>${escapeHtml(city.province)}</small></span>
+        <span class="compare-track"><span style="width:${width}%"></span></span>
+        <span class="compare-value">${hasValue ? formatNumber(pm25, 1) : '—'} <small>µg/m³</small></span>
+        <span class="badge">${kategori ? kategori.label : '—'}</span>
+      </button>
+    `;
+  }).join('');
+}
+
 function renderCityCards() {
   const grid = $('#cityGrid');
   if (!grid) return;
@@ -1231,7 +1388,8 @@ function renderCityCards() {
         </div>
       </button>
     `;
-  }).join('');
+  }).join('') + CITY_NOTE_HTML;
+  renderCityCompare();
 }
 
 /* =========================================================

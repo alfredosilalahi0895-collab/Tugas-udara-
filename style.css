@@ -3393,3 +3393,1465 @@ body.is-loading .loading-bar {
     transform: none;
   }
 }
+
+/* =========================================================
+   TAMPILAN SATU LAYAR
+   Setiap menu menjadi satu panel penuh. Tidak ada scroll
+   vertikal pada desktop; konten dirapatkan agar semua fitur
+   tetap terlihat saat direkam.
+   ========================================================= */
+
+.view[hidden] {
+  display: none !important;
+}
+
+.icon-btn.is-active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+/* Kartu catatan pada panel Kota */
+.city-note-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 0;
+  padding: 13px 14px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, var(--accent-soft), transparent 70%),
+    var(--surface-soft);
+}
+
+.city-note-card .card-kicker {
+  margin-bottom: 0;
+}
+
+.city-note-card p {
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.city-note-card p strong {
+  color: var(--text-soft);
+}
+
+.city-note-list {
+  display: grid;
+  gap: 4px;
+}
+
+.city-note-list li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.62rem;
+  line-height: 1.35;
+}
+
+.city-note-list .status-dot {
+  width: 5px;
+  height: 5px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.city-note-source {
+  margin-top: auto;
+  padding-top: 4px;
+  color: var(--faint);
+  font-size: 0.56rem;
+  font-weight: 600;
+}
+
+/* Peringkat kota */
+.city-compare {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px;
+}
+
+.city-compare .card-head {
+  align-items: center;
+}
+
+.city-compare h3 {
+  font-size: 1rem;
+  letter-spacing: -0.025em;
+}
+
+.city-compare-list {
+  display: grid;
+  gap: 2px;
+  margin-top: 6px;
+}
+
+.compare-row {
+  display: grid;
+  grid-template-columns: 22px 140px minmax(0, 1fr) 96px 104px;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--text);
+  text-align: left;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.compare-row:hover {
+  background: var(--surface-muted);
+}
+
+.compare-row.is-current {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.compare-rank {
+  color: var(--faint);
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.compare-city {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.compare-city small {
+  overflow: hidden;
+  color: var(--faint);
+  font-size: 0.57rem;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.compare-track {
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--surface-muted);
+}
+
+.compare-track > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--cat, var(--accent));
+  transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.compare-value {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.compare-value small {
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 0.55rem;
+  font-weight: 600;
+}
+
+.compare-row .badge {
+  justify-self: end;
+  padding: 3px 8px;
+  font-size: 0.58rem;
+}
+
+.compare-skeleton {
+  opacity: 0.45;
+}
+
+@media (min-width: 981px) and (min-height: 650px) {
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .site-header {
+    position: relative;
+    flex: none;
+  }
+
+  .header-inner {
+    min-height: 58px;
+    gap: 18px;
+  }
+
+  .brand-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+  }
+
+  .brand-mark .icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .brand-text {
+    font-size: 1.16rem;
+  }
+
+  .main-nav {
+    gap: 2px;
+    padding: 4px;
+  }
+
+  .nav-link {
+    padding: 6px 13px;
+    font-size: 0.78rem;
+  }
+
+  .live-badge {
+    padding: 5px 9px;
+    font-size: 0.62rem;
+  }
+
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .app-main {
+    display: flex;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .view {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 100%;
+    padding-block: 0;
+    overflow: hidden;
+  }
+
+  .view.hero {
+    padding-top: 0;
+  }
+
+  .view-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    padding-block: 10px 12px;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .view-inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-footer {
+    display: none;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  #errorBanner {
+    position: fixed;
+    left: 50%;
+    bottom: 18px;
+    z-index: 100;
+    width: min(720px, calc(100vw - 32px));
+    margin: 0;
+    transform: translateX(-50%);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* ---------- Ringkasan ---------- */
+  #ringkasan .hero-top {
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 8px;
+  }
+
+  #ringkasan .hero-copy {
+    max-width: 780px;
+  }
+
+  #ringkasan .eyebrow {
+    gap: 7px;
+    margin-bottom: 3px;
+    font-size: 0.6rem;
+  }
+
+  #ringkasan .eyebrow-line {
+    width: 18px;
+  }
+
+  #ringkasan h1 {
+    max-width: none;
+    margin-bottom: 3px;
+    font-size: clamp(1.9rem, 3.6vh, 2.7rem);
+    letter-spacing: -0.045em;
+  }
+
+  #ringkasan .hero-summary {
+    display: -webkit-box;
+    max-width: 88ch;
+    overflow: hidden;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  #ringkasan .hero-meta {
+    gap: 4px 14px;
+    margin-top: 5px;
+    font-size: 0.67rem;
+  }
+
+  #ringkasan .meta-item .icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  #ringkasan .hero-actions {
+    gap: 10px;
+    padding-bottom: 0;
+  }
+
+  #ringkasan .updated-box {
+    padding-right: 12px;
+  }
+
+  #ringkasan .updated-box span {
+    font-size: 0.58rem;
+  }
+
+  #ringkasan .updated-box strong {
+    font-size: 0.76rem;
+  }
+
+  #ringkasan .btn-primary {
+    min-height: 38px;
+    padding: 0 14px;
+    border-radius: 10px;
+    font-size: 0.78rem;
+  }
+
+  #ringkasan .city-bar {
+    gap: 10px;
+    padding: 3px 8px 3px 12px;
+    border-radius: 13px;
+  }
+
+  #ringkasan .city-bar-label {
+    padding-right: 10px;
+    font-size: 0.6rem;
+  }
+
+  #ringkasan .city-pill {
+    gap: 5px;
+    padding: 5px 10px;
+    font-size: 0.72rem;
+  }
+
+  #ringkasan .dashboard-grid {
+    flex: 1;
+    min-height: 0;
+    margin-top: 9px;
+    gap: 9px;
+    grid-template-rows: minmax(0, 1fr) auto auto;
+  }
+
+  #ringkasan .gauge-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 13px 18px 11px;
+  }
+
+  #ringkasan .advice-card {
+    min-height: 0;
+    padding: 13px 18px 11px;
+  }
+
+  #ringkasan .card-kicker {
+    gap: 5px;
+    margin-bottom: 2px;
+    font-size: 0.58rem;
+  }
+
+  #ringkasan .card-kicker .icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  #ringkasan .card-head h2 {
+    font-size: 0.98rem;
+  }
+
+  #ringkasan .aqi-reference {
+    padding: 3px 8px;
+    font-size: 0.6rem;
+  }
+
+  #ringkasan .aqi-reference strong {
+    font-size: 0.7rem;
+  }
+
+  #ringkasan .gauge-wrap {
+    width: min(100%, clamp(300px, 50vh, 460px));
+    margin: auto;
+    padding-top: 0;
+  }
+
+  #ringkasan .gauge-value {
+    font-size: clamp(2.6rem, 7vh, 4.4rem);
+  }
+
+  #ringkasan .gauge-caption {
+    margin-bottom: -2px;
+    font-size: 0.56rem;
+  }
+
+  #ringkasan .gauge-center .badge {
+    margin-top: 4px;
+    padding: 3px 10px;
+    font-size: 0.68rem;
+  }
+
+  #ringkasan .gauge-range {
+    margin-top: 2px;
+    font-size: 0.56rem;
+  }
+
+  #ringkasan .gauge-footer {
+    gap: 8px;
+    margin-top: 6px;
+    padding-top: 8px;
+    grid-template-columns: 1fr 1fr 1.15fr;
+  }
+
+  #ringkasan .gauge-stat span {
+    font-size: 0.58rem;
+  }
+
+  #ringkasan .gauge-stat strong {
+    font-size: 0.7rem;
+  }
+
+  #ringkasan .gauge-stat-note strong {
+    font-size: 0.66rem;
+  }
+
+  #ringkasan .advice-card .card-head {
+    align-items: center;
+  }
+
+  #ringkasan .advice-card .badge {
+    padding: 3px 9px;
+    font-size: 0.64rem;
+  }
+
+  #ringkasan .advice-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 8px;
+  }
+
+  #ringkasan .advice-icon {
+    width: 34px;
+    height: 34px;
+    margin-bottom: 7px;
+    border-radius: 10px;
+  }
+
+  #ringkasan .advice-icon .icon {
+    width: 17px;
+    height: 17px;
+  }
+
+  #ringkasan .advice-body h3 {
+    max-width: 28ch;
+    margin-bottom: 4px;
+    font-size: clamp(1rem, 2.6vh, 1.35rem);
+  }
+
+  #ringkasan .advice-body > p {
+    max-width: 52ch;
+    font-size: 0.74rem;
+    line-height: 1.45;
+  }
+
+  #ringkasan .advice-list {
+    gap: 3px;
+    margin-top: 7px;
+  }
+
+  #ringkasan .advice-list li {
+    gap: 7px;
+    font-size: 0.7rem;
+    line-height: 1.4;
+  }
+
+  #ringkasan .advice-list .check {
+    width: 15px;
+    height: 15px;
+  }
+
+  #ringkasan .advice-list .check .icon {
+    width: 8px;
+    height: 8px;
+  }
+
+  #ringkasan .advice-foot {
+    margin-top: 6px;
+    padding-top: 7px;
+    font-size: 0.6rem;
+  }
+
+  #ringkasan .strip-head {
+    align-items: center;
+    gap: 14px;
+    padding: 0 2px;
+  }
+
+  #ringkasan .strip-head h2 {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+  }
+
+  #ringkasan .strip-head p {
+    font-size: 0.64rem;
+  }
+
+  #ringkasan .strip-hint {
+    font-size: 0.63rem;
+  }
+
+  #ringkasan .pollutant-grid {
+    gap: 7px;
+  }
+
+  #ringkasan .pollutant-card {
+    min-height: clamp(92px, 14vh, 150px);
+    padding: 8px 10px 7px;
+    border-radius: 13px;
+  }
+
+  #ringkasan .pollutant-head {
+    gap: 5px;
+  }
+
+  #ringkasan .pollutant-icon {
+    width: 19px;
+    height: 19px;
+    border-radius: 6px;
+  }
+
+  #ringkasan .pollutant-icon .icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  #ringkasan .pollutant-name {
+    font-size: 0.63rem;
+  }
+
+  #ringkasan .pollutant-index {
+    padding: 1px 5px;
+    font-size: 0.54rem;
+  }
+
+  #ringkasan .pollutant-value {
+    margin-top: 3px;
+  }
+
+  #ringkasan .pollutant-value strong {
+    font-size: clamp(1rem, 2.2vh, 1.3rem);
+  }
+
+  #ringkasan .pollutant-value span {
+    font-size: 0.53rem;
+  }
+
+  #ringkasan .pollutant-spark {
+    min-height: 16px;
+    margin: 3px -2px 1px;
+  }
+
+  #ringkasan .pollutant-foot {
+    gap: 4px;
+    font-size: 0.55rem;
+  }
+
+  /* ---------- Prediksi ---------- */
+  #prediksi .section-head {
+    align-items: flex-end;
+    gap: 22px;
+    margin-bottom: 10px;
+  }
+
+  #prediksi .section-head > div:first-child {
+    max-width: 760px;
+  }
+
+  #prediksi .eyebrow {
+    margin-bottom: 3px;
+    font-size: 0.6rem;
+  }
+
+  #prediksi .section-head h2 {
+    margin-bottom: 3px;
+    font-size: clamp(1.35rem, 2.2vh, 1.85rem);
+  }
+
+  #prediksi .section-head p:not(.eyebrow) {
+    font-size: 0.73rem;
+    line-height: 1.45;
+  }
+
+  #prediksi .window-control {
+    gap: 7px;
+    padding-bottom: 0;
+  }
+
+  #prediksi .window-label {
+    font-size: 0.6rem;
+  }
+
+  #prediksi .segmented {
+    padding: 3px;
+    border-radius: 10px;
+  }
+
+  #prediksi .segmented button {
+    min-height: 26px;
+    padding: 0 9px;
+    border-radius: 7px;
+    font-size: 0.65rem;
+  }
+
+  #prediksi .prediction-grid {
+    flex: 1;
+    min-height: 0;
+    gap: 10px;
+    grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.85fr);
+  }
+
+  #prediksi .chart-card {
+    min-height: 0;
+    padding: 13px 16px 9px;
+  }
+
+  #prediksi .chart-head {
+    padding-bottom: 3px;
+  }
+
+  #prediksi .chart-head h3 {
+    font-size: 1rem;
+  }
+
+  #prediksi .chart-legend {
+    gap: 12px;
+    padding-top: 2px;
+    font-size: 0.62rem;
+  }
+
+  #prediksi .chart-wrap {
+    min-height: 0;
+    margin-top: 0;
+  }
+
+  #prediksi #predictionChart {
+    min-height: 0;
+  }
+
+  #prediksi .chart-foot {
+    padding-top: 6px;
+    font-size: 0.58rem;
+  }
+
+  #prediksi .chart-foot .icon {
+    width: 10px;
+    height: 10px;
+  }
+
+  #prediksi .prediction-side {
+    min-height: 0;
+    gap: 9px;
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  #prediksi .prediction-summary {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 12px 15px;
+  }
+
+  #prediksi .prediction-label {
+    margin-top: 7px;
+    font-size: 0.62rem;
+  }
+
+  #prediksi .prediction-value strong {
+    font-size: clamp(1.9rem, 4.4vh, 2.8rem);
+  }
+
+  #prediksi .prediction-value span {
+    font-size: 0.65rem;
+  }
+
+  #prediksi .trend-pill {
+    margin-top: 5px;
+    padding: 3px 8px;
+    font-size: 0.6rem;
+  }
+
+  #prediksi .prediction-stats {
+    margin-top: 7px;
+  }
+
+  #prediksi .prediction-stats > div {
+    padding: 5px 0;
+  }
+
+  #prediksi .prediction-stats span {
+    font-size: 0.6rem;
+  }
+
+  #prediksi .prediction-stats strong {
+    font-size: 0.68rem;
+  }
+
+  #prediksi .prediction-stats small {
+    font-size: 0.55rem;
+  }
+
+  #prediksi .prediction-note {
+    margin-top: 7px;
+    font-size: 0.56rem;
+  }
+
+  #prediksi .method-card {
+    padding: 10px 15px;
+  }
+
+  #prediksi .method-card .card-kicker {
+    font-size: 0.56rem;
+  }
+
+  #prediksi .method-card p {
+    margin-top: 6px;
+    font-size: 0.67rem;
+    line-height: 1.4;
+  }
+
+  #prediksi .formula {
+    margin-top: 7px;
+    padding: 6px 10px;
+    border-radius: 9px;
+    font-size: 0.68rem;
+  }
+
+  #prediksi .formula-frac {
+    font-size: 0.6rem;
+  }
+
+  #prediksi .forecast-block {
+    margin-top: 10px;
+  }
+
+  #prediksi .forecast-head {
+    align-items: center;
+    padding: 0 2px 6px;
+  }
+
+  #prediksi .forecast-head h2 {
+    font-size: 0.9rem;
+  }
+
+  #prediksi .forecast-head p {
+    font-size: 0.64rem;
+  }
+
+  #prediksi .weather-note {
+    font-size: 0.6rem;
+  }
+
+  #prediksi .forecast-strip {
+    gap: 7px;
+  }
+
+  #prediksi .forecast-card {
+    gap: 2px;
+    padding: 8px 10px 7px;
+    border-radius: 13px;
+  }
+
+  #prediksi .forecast-day {
+    font-size: 0.7rem;
+  }
+
+  #prediksi .forecast-day span {
+    font-size: 0.56rem;
+  }
+
+  #prediksi .forecast-value-row {
+    margin-top: 3px;
+  }
+
+  #prediksi .forecast-ispu {
+    font-size: 1.35rem;
+  }
+
+  #prediksi .forecast-unit {
+    font-size: 0.52rem;
+  }
+
+  #prediksi .forecast-card .badge {
+    margin-top: 1px;
+    padding: 2px 6px;
+    font-size: 0.55rem;
+  }
+
+  #prediksi .forecast-bar {
+    height: 3px;
+    margin-top: 4px;
+  }
+
+  #prediksi .forecast-pm {
+    margin-top: 2px;
+    font-size: 0.56rem;
+  }
+
+  /* ---------- Kota ---------- */
+  #kota .section-head {
+    align-items: flex-end;
+    gap: 22px;
+    margin-bottom: 10px;
+  }
+
+  #kota .eyebrow {
+    margin-bottom: 3px;
+    font-size: 0.6rem;
+  }
+
+  #kota .section-head h2 {
+    margin-bottom: 3px;
+    font-size: clamp(1.35rem, 2.2vh, 1.85rem);
+  }
+
+  #kota .section-head p:not(.eyebrow) {
+    font-size: 0.73rem;
+    line-height: 1.45;
+  }
+
+  #kota .section-chip {
+    padding: 5px 10px;
+    font-size: 0.62rem;
+  }
+
+  #kota .city-grid {
+    flex: 0 0 auto;
+    min-height: 0;
+    align-content: start;
+    gap: 9px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  #kota .city-card,
+  #kota .city-note-card {
+    min-height: clamp(130px, 19vh, 190px);
+  }
+
+  #kota .city-card {
+    padding: 11px 12px;
+    border-radius: 14px;
+  }
+
+  #kota .city-card h3 {
+    font-size: 0.86rem;
+  }
+
+  #kota .city-card-top p {
+    font-size: 0.58rem;
+  }
+
+  #kota .city-arrow {
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+  }
+
+  #kota .current-label {
+    padding: 2px 6px;
+    font-size: 0.52rem;
+  }
+
+  #kota .city-card-main {
+    margin-top: 8px;
+  }
+
+  #kota .city-pm strong {
+    font-size: 1.35rem;
+  }
+
+  #kota .city-pm span {
+    font-size: 0.54rem;
+  }
+
+  #kota .city-card .badge {
+    padding: 3px 8px;
+    font-size: 0.58rem;
+  }
+
+  #kota .city-card-bar {
+    height: 3px;
+    margin-top: 7px;
+  }
+
+  #kota .city-card-foot {
+    margin-top: 5px;
+    font-size: 0.56rem;
+  }
+
+  #kota .city-note-card {
+    padding: 12px 13px;
+  }
+
+  #kota .city-note-card p {
+    font-size: 0.64rem;
+  }
+
+  #kota .city-note-list li {
+    font-size: 0.58rem;
+  }
+
+  #kota .city-compare {
+    flex: 1;
+    min-height: 0;
+    margin-top: 9px;
+    padding: 10px 14px;
+  }
+
+  #kota .city-compare .card-head {
+    align-items: center;
+  }
+
+  #kota .city-compare .card-kicker {
+    margin-bottom: 1px;
+  }
+
+  #kota .city-compare h3 {
+    font-size: 0.9rem;
+  }
+
+  #kota .city-compare .strip-hint {
+    font-size: 0.6rem;
+  }
+
+  #kota .city-compare-list {
+    flex: 1;
+    min-height: 0;
+    gap: 2px;
+    margin-top: 4px;
+    grid-template-rows: repeat(7, minmax(0, 1fr));
+  }
+
+  #kota .compare-row {
+    gap: 8px;
+    padding: 2px 5px;
+    border-radius: 7px;
+    grid-template-columns: 20px 140px minmax(0, 1fr) 92px 100px;
+  }
+
+  #kota .compare-rank {
+    font-size: 0.62rem;
+  }
+
+  #kota .compare-city {
+    font-size: 0.72rem;
+  }
+
+  #kota .compare-city small {
+    font-size: 0.54rem;
+  }
+
+  #kota .compare-track {
+    height: 6px;
+  }
+
+  #kota .compare-value {
+    font-size: 0.76rem;
+  }
+
+  #kota .compare-value small {
+    font-size: 0.52rem;
+  }
+
+  #kota .compare-row .badge {
+    padding: 2px 7px;
+    font-size: 0.55rem;
+  }
+
+  #kota .section-footnote {
+    display: none;
+  }
+
+  /* ---------- Edukasi ---------- */
+  #edukasi .section-head {
+    align-items: flex-end;
+    gap: 22px;
+    margin-bottom: 10px;
+  }
+
+  #edukasi .eyebrow {
+    margin-bottom: 3px;
+    font-size: 0.6rem;
+  }
+
+  #edukasi .section-head h2 {
+    margin-bottom: 3px;
+    font-size: clamp(1.35rem, 2.2vh, 1.85rem);
+  }
+
+  #edukasi .section-head p:not(.eyebrow) {
+    font-size: 0.73rem;
+    line-height: 1.45;
+  }
+
+  #edukasi .text-link {
+    padding-bottom: 2px;
+    font-size: 0.7rem;
+  }
+
+  #edukasi .edu-grid {
+    flex: 1;
+    min-height: 0;
+    gap: 9px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  #edukasi .edu-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 11px 13px;
+    overflow: hidden;
+  }
+
+  #edukasi .edu-card .ispu-scale,
+  #edukasi .edu-card .indicator-list,
+  #edukasi .edu-card .factor-grid,
+  #edukasi .edu-card .method-list {
+    flex: 1;
+  }
+
+  #edukasi .edu-note {
+    margin-top: auto;
+  }
+
+  #edukasi .edu-head {
+    gap: 9px;
+    margin-bottom: 7px;
+  }
+
+  #edukasi .edu-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+  }
+
+  #edukasi .edu-icon .icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  #edukasi .edu-head h3 {
+    font-size: 0.84rem;
+  }
+
+  #edukasi .edu-head p {
+    margin-top: 1px;
+    font-size: 0.58rem;
+    line-height: 1.35;
+  }
+
+  #edukasi .ispu-row {
+    gap: 6px;
+    padding: 3px 0;
+    grid-template-columns: 8px 92px 1fr;
+  }
+
+  #edukasi .ispu-dot {
+    width: 7px;
+    height: 7px;
+  }
+
+  #edukasi .ispu-row strong {
+    font-size: 0.63rem;
+  }
+
+  #edukasi .ispu-row > div span {
+    font-size: 0.54rem;
+  }
+
+  #edukasi .ispu-row p {
+    font-size: 0.57rem;
+    line-height: 1.35;
+  }
+
+  #edukasi .edu-note {
+    gap: 5px;
+    margin-top: 6px;
+    padding: 6px 8px;
+    font-size: 0.54rem;
+    line-height: 1.4;
+  }
+
+  #edukasi .indicator {
+    gap: 7px;
+    padding: 3px 0;
+    grid-template-columns: 40px 1fr;
+  }
+
+  #edukasi .indicator-code {
+    min-height: 18px;
+    padding: 1px 4px;
+    font-size: 0.55rem;
+  }
+
+  #edukasi .indicator strong {
+    font-size: 0.63rem;
+  }
+
+  #edukasi .indicator p {
+    font-size: 0.56rem;
+    line-height: 1.35;
+  }
+
+  #edukasi .factor-grid {
+    gap: 5px;
+  }
+
+  #edukasi .factor {
+    gap: 6px;
+    padding: 6px 7px;
+    border-radius: 9px;
+  }
+
+  #edukasi .factor > .icon {
+    width: 13px;
+    height: 13px;
+    margin-top: 1px;
+  }
+
+  #edukasi .factor strong {
+    font-size: 0.6rem;
+  }
+
+  #edukasi .factor p {
+    font-size: 0.54rem;
+    line-height: 1.35;
+  }
+
+  #edukasi .method-item {
+    padding: 5px 0;
+  }
+
+  #edukasi .method-title {
+    gap: 6px;
+  }
+
+  #edukasi .method-title > span:first-child {
+    font-size: 0.54rem;
+  }
+
+  #edukasi .method-title strong {
+    font-size: 0.65rem;
+  }
+
+  #edukasi .used-tag {
+    padding: 1px 5px;
+    font-size: 0.48rem;
+  }
+
+  #edukasi .method-item p {
+    margin-top: 2px;
+    font-size: 0.56rem;
+    line-height: 1.4;
+  }
+
+  #edukasi .method-example {
+    margin-top: 3px;
+    padding: 3px 6px;
+    font-size: 0.54rem;
+  }
+
+  #edukasi .data-note {
+    align-items: center;
+    gap: 14px;
+    margin-top: 8px;
+    padding: 9px 13px;
+    border-radius: 15px;
+  }
+
+  #edukasi .data-note-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+  }
+
+  #edukasi .data-note-icon .icon {
+    width: 13px;
+    height: 13px;
+  }
+
+  #edukasi .data-note h3 {
+    margin-bottom: 1px;
+    font-size: 0.76rem;
+  }
+
+  #edukasi .data-note p {
+    max-width: 900px;
+    font-size: 0.56rem;
+    line-height: 1.45;
+  }
+
+  #edukasi .data-note-actions {
+    gap: 4px;
+    max-width: 260px;
+  }
+
+  #edukasi .data-chip {
+    padding: 2px 6px;
+    font-size: 0.52rem;
+  }
+}
+
+@media (min-width: 981px) and (min-height: 900px) {
+  #ringkasan h1 {
+    font-size: clamp(2.1rem, 3.6vh, 2.8rem);
+  }
+
+  #ringkasan .hero-summary {
+    font-size: 0.88rem;
+  }
+
+  #ringkasan .hero-meta {
+    font-size: 0.72rem;
+  }
+
+  #ringkasan .city-pill {
+    padding: 6px 12px;
+    font-size: 0.78rem;
+  }
+
+  #ringkasan .gauge-value {
+    font-size: clamp(3.4rem, 7.4vh, 4.8rem);
+  }
+
+  #ringkasan .advice-body h3 {
+    font-size: clamp(1.2rem, 2.8vh, 1.5rem);
+  }
+
+  #ringkasan .advice-body > p {
+    font-size: 0.8rem;
+  }
+
+  #ringkasan .advice-list li {
+    font-size: 0.75rem;
+  }
+
+  #ringkasan .pollutant-card {
+    min-height: clamp(120px, 14vh, 160px);
+  }
+
+  #prediksi .section-head h2,
+  #kota .section-head h2,
+  #edukasi .section-head h2 {
+    font-size: clamp(1.65rem, 2.6vh, 2.15rem);
+  }
+
+  #prediksi .section-head p:not(.eyebrow),
+  #kota .section-head p:not(.eyebrow),
+  #edukasi .section-head p:not(.eyebrow) {
+    font-size: 0.8rem;
+  }
+
+  #prediksi .prediction-value strong {
+    font-size: clamp(2.4rem, 4.8vh, 3.2rem);
+  }
+
+  #kota .city-card,
+  #kota .city-note-card {
+    min-height: clamp(160px, 19vh, 210px);
+  }
+
+  #kota .compare-row {
+    gap: 12px;
+    padding: 4px 8px;
+    grid-template-columns: 22px 160px minmax(0, 1fr) 110px 116px;
+  }
+
+  #kota .compare-city {
+    font-size: 0.8rem;
+  }
+
+  #kota .compare-city small {
+    font-size: 0.6rem;
+  }
+
+  #kota .compare-rank {
+    font-size: 0.68rem;
+  }
+
+  #kota .compare-value {
+    font-size: 0.84rem;
+  }
+
+  #kota .compare-row .badge {
+    font-size: 0.6rem;
+  }
+
+  #edukasi .edu-head h3 {
+    font-size: 0.92rem;
+  }
+
+  #edukasi .edu-head p {
+    font-size: 0.63rem;
+  }
+
+  #edukasi .ispu-row p,
+  #edukasi .indicator p,
+  #edukasi .factor p,
+  #edukasi .method-item p {
+    font-size: 0.62rem;
+  }
+
+  #edukasi .edu-card {
+    padding: 14px 16px;
+  }
+}
+
+/* ---------- Mobile: tab tetap ada, halaman boleh scroll ---------- */
+@media (max-width: 980px) {
+  .header-inner {
+    flex-wrap: wrap;
+    min-height: 0;
+    gap: 8px 14px;
+    padding-block: 8px;
+  }
+
+  .brand {
+    order: 1;
+  }
+
+  .header-actions {
+    order: 2;
+    margin-left: auto;
+  }
+
+  .main-nav {
+    display: flex;
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .main-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-link {
+    flex: 1;
+    padding: 7px 8px;
+    text-align: center;
+    font-size: 0.75rem;
+  }
+
+  .view {
+    scroll-margin-top: 118px;
+  }
+
+  .city-note-card {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 680px) {
+  .city-compare {
+    padding: 12px;
+  }
+
+  .city-compare-list {
+    grid-template-rows: none;
+    gap: 3px;
+    margin-top: 6px;
+  }
+
+  .compare-row {
+    row-gap: 4px;
+    padding: 7px 4px;
+    grid-template-columns: 18px minmax(0, 1fr) auto;
+    grid-template-areas:
+      "rank city value"
+      "rank track badge";
+  }
+
+  .compare-rank {
+    grid-area: rank;
+    align-self: center;
+  }
+
+  .compare-city {
+    grid-area: city;
+  }
+
+  .compare-track {
+    grid-area: track;
+  }
+
+  .compare-value {
+    grid-area: value;
+  }
+
+  .compare-row .badge {
+    grid-area: badge;
+    justify-self: end;
+  }
+}
+
